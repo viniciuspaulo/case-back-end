@@ -17,7 +17,7 @@ O case se divide em quatro partes:
 
 1) Aplicação rodando em algum serviço online
 2) Acesso ao repositório git em que foi desenvolvido
-3) Imagens do seu backlog inicial no Trello
+3) Imagens do seu backlog inicial
 
 É essencial elaborar brevemente sobre sua solução, detalhes de arquitetura, escolha de padrões, frameworks e componentes.
 
