@@ -9,7 +9,7 @@ Para isso use qualquer linguagem, ferramenta e frameworks com que se sinta confo
 O case se divide em quatro partes:
 
 1) Escolher uma API pública em que você vai obter dados que vão ser usados nos próximos passos do case. O tema de escolha é livre.
-2) Elencar algumas das informações publicar e estruturar isso em algum tipo de banco de dados
+2) Elencar algumas das informações públicas e estruturar isso em algum tipo de banco de dados
 3) Olhando esses dados gerados a partir da API pública que estão no banco de dados, disponibilizar alguma interface (interface web, aplicação console, API REST etc) pra que sejam feitas consultas em cima dos dados
 4) Devera ser feito o deploy em algum serviço online para que qualquer pessoa possa acessar
 
