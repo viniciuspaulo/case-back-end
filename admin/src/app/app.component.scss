@@ -1,0 +1,18 @@
+.username{
+    background: #4fa2cb;
+    color: #fff;
+    padding: 8px 16px;
+    i{
+        font-size: 18px;
+        margin: 0px 5px;
+    }
+    span{
+        text-transform: uppercase;
+        margin: 0px 8px;
+    }
+}
+
+.column-center{
+    display: flex;
+    align-items: center;
+}

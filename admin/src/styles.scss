@@ -1,0 +1,244 @@
+/* You can add global styles to this file, and also import other style files */
+
+.ui-datatable .ui-column-filter .ui-inputtext,
+.ui-datatable .ui-column-filter{
+  font-size: 10px !important;
+}
+.ui-datatable .ui-datatable-footer{
+  display: flex;
+}
+
+.ui-float-label>label{
+  left: 0.90em !important;
+}
+.form-group .float-label{
+  margin-left: 0em !important;
+  color: #8f8f8f;
+}
+
+body {
+  background-color: #d289c31c;
+}
+body .ui-inputtext.ng-dirty {
+  border: 1px solid #e17576;
+}
+
+body .ui-inputtext.ng-valid {
+  border: 1px solid #14c52b;
+}
+
+.ui-progress-spinner{
+  width: 100% !important;
+  height: 100% !important;
+  svg{
+    width: 100px !important;
+  }
+}
+
+
+.padding0 .ui-panel .ui-panel-content{
+  padding: 0px !important;
+}
+
+.ui-message.padrao{
+    display: initial !important;
+}
+
+.ui-tabview .ui-tabview-panel{
+padding: 0px !important;
+}
+
+.titulo-view{
+    background: #575867;
+    margin: 0px;
+    padding: 10px;
+    color: #fff;
+}
+
+.text-uppercase{
+    text-transform: uppercase;
+}
+
+
+.modalResult{
+.ui-dialog-content{
+    height: 380px !important;
+    padding: 0px 5px !important;
+}
+}
+
+.ng-star-inserted{
+img{
+  width: 100px;
+  margin: 5px;
+  border-radius: 5px;
+}
+}
+
+.ui-lightbox-content.ui-corner-all{
+  img{
+    min-width: 400px;
+    max-width: 900px;
+  }
+}
+
+.input-hidden{
+  border: none !important;
+  background: transparent !important;
+  opacity: 1 !important;
+}
+
+
+
+.column-status{
+  font-weight: bolder;
+  &.cadastro{
+    color: rgb(43, 43, 43);
+  }  
+  &.aberto{
+      color: green;
+  }  
+  &.andamento{
+      color: orange;
+  }  
+  &.concluido{
+      color: rgb(26, 129, 155);
+  } 
+  &.concluido{
+      color: blue;
+  }  
+  &.sinedie{
+      color: rgb(88, 88, 8);
+  }  
+  &.cancelado{
+      color: red;
+  }    
+}
+
+.fc-day-grid-event .fc-content{
+  cursor: pointer !important;
+}
+
+
+.layout-wrapper .topbar {
+  box-shadow: 0 0 0px rgb(222, 228, 234);
+}
+.layout-wrapper .footer {
+  padding: .5em 0px;
+  &.fixed {
+    padding: .5em 0px;
+    position: fixed;
+    width: calc(100% - 280px);
+    bottom: -15px;
+    transition-duration: 0.5s;
+  }
+}
+
+.layout-menu-static-inactive{
+  .footer{
+    width: calc(100% - 30px) !important;
+    transition-duration: 0.5s;
+  }
+}
+
+.green-btn:hover{
+  color: #fff; 
+  background-color: #3b9c5a !important;
+}
+
+.modal-documentacao{
+  top: 1% !important;
+  .ui-dialog-content{
+    min-height: 300px;
+    overflow-y: auto;
+  }
+}
+
+.modal-lances{
+  width: calc(100% - 30px);
+  min-width: calc(100% - 30px);
+  top: 10% !important;
+  .ui-dialog-content{
+    min-height: 450px;
+    overflow-y: auto;
+  }
+}
+
+.modal-pdf{
+  top: 10% !important;
+  .ui-dialog-content{
+    min-height: 350px;
+  }
+}
+
+.auto{
+  width: auto !important;
+}
+
+th.row-regular{
+  .ui-column-title{
+      display: block !important;
+  }
+}
+
+
+
+.inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+.inputfile + label.semimg {
+  text-align: center;
+  font-size: 1.25em;
+  font-weight: 700;
+  color: #517fa6;
+  padding: 10px 20px;
+  background-color: whitesmoke;
+  display: inline-block;
+  border-radius: 10px;
+}
+.inputfile + label.semimg .fa{
+  font-size: 2em;
+}
+.inputfile + label.comimg{
+  text-align: center;
+  font-size: 1.25em;
+  font-weight: 700;
+  color: white;
+  width: 120px;
+  display: inline-block;
+  border-radius: 100%;
+  height: 120px;
+}
+
+.comimg img{
+ width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+}
+
+.inputfile:focus + label.semimg,
+.inputfile + label.semimg:hover {
+  transition-duration: 0.5s;
+  cursor: pointer;
+}
+
+
+
+//Paginacao
+body .ui-paginator{
+  background-color: transparent !important;
+}
+
+
+@media (max-width: 1024px){
+  .layout-wrapper.menu-layout-static.layout-menu-static-active .layout-mask {
+      display: none;
+  }
+}

@@ -1,0 +1,439 @@
+<p-growl [(value)]="mensagens"></p-growl>
+<p-blockUI [blocked]="loading">
+  <p-progressSpinner></p-progressSpinner>
+</p-blockUI>
+<p-confirmDialog header="Excluir" icon="fa fa-question-circle" width="425" #cd>
+    <p-footer>
+        <button type="button" pButton icon="fa-check" label="Sim" (click)="cd.accept()"></button>
+        <button type="button" pButton icon="fa-close" label="Não" (click)="cd.reject()"></button>
+    </p-footer>
+</p-confirmDialog>
+
+
+
+<p-dialog styleClass="modal-corte" header="Corte de imagem" [(visible)]="cropVisivel" [modal]="true" [responsive]="true" [width]="450">
+    <div class="croop">
+            <image-cropper
+            [imageChangedEvent]="imageChangedEvent"
+            [maintainAspectRatio]="true"
+            [aspectRatio]="4 / 3"
+            [resizeToWidth]="300"
+            format="png"
+            (imageCroppedBase64)="imageCropped($event)">
+        </image-cropper>
+    </div>
+    <p-footer>
+        <button type="button" pButton icon="fa-check" (click)="salveCrop()" label="Cortar"></button>
+        <button type="button" pButton icon="fa-close" (click)="cropVisivel=false" label="No" class="ui-button-secondary"></button>
+    </p-footer>
+</p-dialog>
+
+
+<div *ngIf="!exitente">
+
+    <p-table 
+        #tabela 
+        [value]="listagem"
+        [columns]="coluna">
+        <ng-template pTemplate="caption">
+            <div class="ui-g">
+                <div class="ui-g-6 ui-lg-6">
+                    Listagem de {{page_p}} | Quantidade : {{listagem?.length}}
+                </div>
+                <div class="ui-g-6 ui-lg-6">
+                    <input pInputText style="width: 100%" type="text" placeholder="Buscar" (keyup)="buscaSimples('razaosocial',$event.target.value)">
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 65px"></th>
+                <th>Razão Social</th>
+                <th>CNPJ</th>
+                <th style="width: 90px">Ações</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-selecionado>
+            <tr>
+                <td>
+                    <img *ngIf="selecionado?.logo" src="{{urlImage}}{{selecionado?.logo}}" class="logo-table">
+                    <img *ngIf="!selecionado?.logo" src="assets/layout/images/logo.svg" class="logo-table">
+                </td>
+                <td>{{selecionado?.nome}}</td>
+                <td>{{selecionado?.cnpj}}</td>
+                <td>
+                    <button pButton type="button" (click)="selecionar(selecionado)" icon="fa fa-edit"></button>
+                    <button pButton type="button" (click)="excluir(selecionado)" icon="fa fa-trash" class="ui-button-danger"></button>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="summary">
+          <div class="row table-paginacao">
+              <p-paginator [rows]="10" totalRecords="{{paginacaoTotal}}" (onPageChange)="buscar($event)"></p-paginator>
+          </div>
+          <div class="row table-acoes-footer" style="text-align: left">
+            <button pButton label="Novo" (click)="selecionar()" class="ui-button-secondary "></button>
+          </div>
+        </ng-template>
+    </p-table>
+</div>
+
+<form [formGroup]="formulario" (ngSubmit)="criarAtualizar(selecionado)" novalidate *ngIf="exitente">
+  <p-panel header="{{page_s}} {{ selecionado?.nome ? ' : '+selecionado?.nome : '' }}" [toggleable]="true">
+      
+      <div class="ui-g ui-fluid">
+          <div class="ui-g-12 ui-lg-12">
+              <!-- Left Side -->
+                <div class="card card-w-title">
+
+                    <div class="ui-g-12 ui-lg-8">
+
+                        <div class="ui-g form-group">
+                            <div class="ui-g-12 ui-md-12">
+                                <div class="ui-g form-group">
+                                    <div class="ui-g-12 ui-md-6">
+                                        <label for="nome">Nome Estabelecimento</label>
+                                        <input  type="text" 
+                                                pInputText
+                                                name="nome" 
+                                                formControlName="nome" 
+                                                (change)="buscarYielp()"
+                                                [(ngModel)]="selecionado.nome" />
+                                    </div>
+                                    <div class="ui-g-12 ui-md-6">
+                                        <img *ngIf="selecionado?.yielpId" width="100" src="data:image/png;base64,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" />
+                                    </div>
+                                </div>
+                                <div class="ui-g form-group">
+                                    <div class="ui-g-12 ui-md-6">
+                                        <label for="nome">Email</label>
+                                        <input  type="email" 
+                                                pInputText
+                                                name="email" 
+                                                formControlName="email" 
+                                                [(ngModel)]="selecionado.email" />
+                                    </div>
+                                    <div class="ui-g-12 ui-md-6">
+                                        <label for="nome">CNPJ</label>
+                                        <p-inputMask mask="99.999.999/9999-99"
+                                                name="cnpj" 
+                                                formControlName="cnpj" 
+                                                [(ngModel)]="selecionado.cnpj" ></p-inputMask>
+                                    </div>
+                                </div>
+                                <div class="ui-g form-group">
+                                    <div class="ui-g-12 ui-md-6">
+                                        <label for="nome">Senha</label>
+                                        <input  type="password" 
+                                                pInputText
+                                                name="senha" 
+                                                formControlName="senha" 
+                                                [(ngModel)]="selecionado.senha" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- *********** MIDIA ******* -->
+                        <h4>Social Midia</h4>
+                        <div class="ui-g form-group">
+
+                            <div class="ui-g-12 ui-md-4">
+                                <label for="nome">Facebook</label>
+                                <input type="text" pInputText name="facebook" formControlName="facebook" [(ngModel)]="selecionado.facebook" />
+                            </div>
+
+                            <div class="ui-g-12 ui-md-4">
+                                <label for="nome">WhatsApp</label>
+                                <input type="text" pInputText name="whatsapp" formControlName="whatsapp" [(ngModel)]="selecionado.whatsapp" />
+                            </div>
+
+                            <div class="ui-g-12 ui-md-4">
+                                <label for="nome">Instagram</label>
+                                <input type="text" pInputText name="instagram" formControlName="instagram" [(ngModel)]="selecionado.instagram" />
+                            </div>
+
+                        </div>
+
+                        <div class="ui-g form-group">
+                            <div class="ui-g-12 ui-md-3">
+                                <label for="nome">Site</label>
+                                <input type="text" pInputText name="site" formControlName="site" [(ngModel)]="selecionado.site" />
+                            </div>
+
+                            <div class="ui-g-12 ui-md-3">
+                                <label for="nome">Youtube</label>
+                                <input type="text" pInputText name="youtube" formControlName="youtube" [(ngModel)]="selecionado.youtube" />
+                            </div>
+
+                            <div class="ui-g-12 ui-md-3">
+                                <label for="nome">LinkedIn</label>
+                                <input type="text" pInputText name="linkedin" formControlName="linkedin" [(ngModel)]="selecionado.linkedin" />
+                            </div>
+
+                            <div class="ui-g-12 ui-md-3">
+                                <label for="nome">Messenger</label>
+                                <input type="text" pInputText name="messenger" formControlName="messenger" [(ngModel)]="selecionado.messenger" />
+                            </div>
+                        </div>
+
+
+                        <!-- *********** ENDERECO ******* -->
+                        <h4>Endereço</h4>
+                        <div class="ui-g form-group">
+                            <div class="ui-g-12 ui-md-4">
+                                <label for="cep">Cep</label>
+                                <p-inputMask name="cep" mask="99999-999" formControlName="cep" (ngModelChange)="buscarCep($event)" [(ngModel)]="selecionado.cep"></p-inputMask>
+                            </div>
+
+                            <div class="ui-g-12 ui-md-4">
+                                <label for="fixo">Estado</label> <br>
+
+                                <p-dropdown *ngIf="!selecionado.uf" [options]="estados" [filter]="true" name="uf" formControlName="uf" [(ngModel)]="selecionado.uf"
+                                    placeholder="Selecionar Estado"></p-dropdown>
+
+                                <input type="text" *ngIf="selecionado.uf" pInputText name="uf" formControlName="uf" [(ngModel)]="selecionado.uf" />
+
+                            </div>
+
+                            <div class="ui-g-12 ui-md-4" *ngIf="selecionado.uf">
+                                <label for="cidade">Cidade</label>
+                                <input type="text" pInputText name="cidade" formControlName="cidade" [(ngModel)]="selecionado.cidade" />
+                            </div>
+                        </div>
+                        <div class="ui-g form-group">
+                            <div class="ui-g-12 ui-md-5">
+                                <label for="endereco">Enderecço</label>
+                                <input type="text" pInputText name="endereco" formControlName="endereco" [(ngModel)]="selecionado.endereco" />
+                            </div>
+                            <div class="ui-g-12 ui-md-2">
+                                <label for="numero">Numero</label>
+                                <input type="number" pInputText name="numero" formControlName="numero" [(ngModel)]="selecionado.numero" />
+                            </div>
+                            <div class="ui-g-12 ui-md-5">
+                                <label for="bairro">Bairro</label>
+                                <input type="text" pInputText name="bairro" formControlName="bairro" [(ngModel)]="selecionado.bairro" />
+                            </div>
+                        </div>
+
+
+                        <p-accordion>
+                            <p-accordionTab header="Funcionamento">
+
+                                <div class="ui-g form-group">
+                                    <div class="ui-g-2 ui-md-2">
+                                        <br>
+                                        <label for="terca">Segunda</label>
+                                    </div>
+                                    <div class="ui-g-2 ui-md-2">
+                                        <br>
+                                        <p-checkbox name="ativo" formControlName="segunda" binary="true" [(ngModel)]="selecionado.segunda"></p-checkbox>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-2">
+                                        <label for="segunda_ini">Inicia</label>
+                                        <p-inputMask name="segunda_ini" mask="99:99" [disabled]="!selecionado.segunda" formControlName="segunda_ini" [(ngModel)]="selecionado.segunda_ini"></p-inputMask>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-2">
+                                        <label for="segunda_fim">Encerra</label>
+                                        <p-inputMask name="segunda_fim" mask="99:99" [disabled]="!selecionado.segunda" formControlName="segunda_fim" [(ngModel)]="selecionado.segunda_fim"></p-inputMask>
+                                    </div>
+                                    
+                                </div>
+
+                                <div class="ui-g form-group">
+                                    <div class="ui-g-2 ui-md-2">
+                                        <br>
+                                        <label for="terca">Terça</label>
+                                    </div>
+                                    <div class="ui-g-2 ui-md-2">
+                                        <br>
+                                        <p-checkbox name="ativo" formControlName="terca" binary="true" [(ngModel)]="selecionado.terca"></p-checkbox>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-2">
+                                        <label for="terca_ini">Inicia</label>
+                                        <p-inputMask name="terca_ini" mask="99:99" [disabled]="!selecionado.terca" formControlName="terca_ini" [(ngModel)]="selecionado.terca_ini"></p-inputMask>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-2">
+                                        <label for="terca_fim">Encerra</label>
+                                        <p-inputMask name="terca_fim" mask="99:99" [disabled]="!selecionado.terca" formControlName="terca_fim" [(ngModel)]="selecionado.terca_fim"></p-inputMask>
+                                    </div>
+                                    
+                                </div>
+
+                                <div class="ui-g form-group">
+                                    <div class="ui-g-2 ui-md-2">
+                                        <br>
+                                        <label for="quarta">Quarta</label>
+                                    </div>
+                                    <div class="ui-g-2 ui-md-2">
+                                        <br>
+                                        <p-checkbox name="ativo" formControlName="quarta" binary="true" [(ngModel)]="selecionado.quarta"></p-checkbox>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-2">
+                                        <label for="quarta_ini">Inicia</label>
+                                        <p-inputMask name="quarta_ini" mask="99:99" [disabled]="!selecionado.quarta" formControlName="quarta_ini" [(ngModel)]="selecionado.quarta_ini"></p-inputMask>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-2">
+                                        <label for="quarta_fim">Encerra</label>
+                                        <p-inputMask name="quarta_fim" mask="99:99" [disabled]="!selecionado.quarta" formControlName="quarta_fim" [(ngModel)]="selecionado.quarta_fim"></p-inputMask>
+                                    </div>
+                                    
+                                </div>
+
+                                <div class="ui-g form-group">
+                                    <div class="ui-g-2 ui-md-2">
+                                        <br>
+                                        <label for="quarta">Quinta</label>
+                                    </div>
+                                    <div class="ui-g-2 ui-md-2">
+                                        <br>
+                                        <p-checkbox name="ativo" formControlName="quinta" binary="true" [(ngModel)]="selecionado.quinta"></p-checkbox>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-2">
+                                        <label for="quinta_ini">Inicia</label>
+                                        <p-inputMask name="quinta_ini" mask="99:99" [disabled]="!selecionado.quinta" formControlName="quinta_ini" [(ngModel)]="selecionado.quinta_ini"></p-inputMask>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-2">
+                                        <label for="quarta_fim">Encerra</label>
+                                        <p-inputMask name="quinta_fim" mask="99:99" [disabled]="!selecionado.quinta" formControlName="quinta_fim" [(ngModel)]="selecionado.quinta_fim"></p-inputMask>
+                                    </div>
+                                    
+                                </div>
+
+                                <div class="ui-g form-group">
+                                    <div class="ui-g-2 ui-md-2">
+                                        <br>
+                                        <label for="quarta">Sexta</label>
+                                    </div>
+                                    <div class="ui-g-2 ui-md-2">
+                                        <br>
+                                        <p-checkbox name="ativo" formControlName="sexta" binary="true" [(ngModel)]="selecionado.sexta"></p-checkbox>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-2">
+                                        <label for="sexta_ini">Inicia</label>
+                                        <p-inputMask name="sexta_ini" mask="99:99" [disabled]="!selecionado.sexta" formControlName="sexta_ini" [(ngModel)]="selecionado.sexta_ini"></p-inputMask>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-2">
+                                        <label for="sexta_fim">Encerra</label>
+                                        <p-inputMask name="sexta_fim" mask="99:99" [disabled]="!selecionado.sexta" formControlName="sexta_fim" [(ngModel)]="selecionado.sexta_fim"></p-inputMask>
+                                    </div>
+                                    
+                                </div>
+
+                                <div class="ui-g form-group">
+                                    <div class="ui-g-2 ui-md-2">
+                                        <br>
+                                        <label for="quarta">Sábado</label>
+                                    </div>
+                                    <div class="ui-g-2 ui-md-2">
+                                        <br>
+                                        <p-checkbox name="ativo" formControlName="sabado" binary="true" [(ngModel)]="selecionado.sabado"></p-checkbox>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-2">
+                                        <label for="sexta_ini">Inicia</label>
+                                        <p-inputMask name="sabado_ini" mask="99:99" [disabled]="!selecionado.sabado" formControlName="sabado_ini" [(ngModel)]="selecionado.sabado_ini"></p-inputMask>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-2">
+                                        <label for="sexta_fim">Encerra</label>
+                                        <p-inputMask name="sabado_fim" mask="99:99" [disabled]="!selecionado.sabado" formControlName="sabado_fim" [(ngModel)]="selecionado.sabado_fim"></p-inputMask>
+                                    </div>
+                                    
+                                </div>
+
+                                <div class="ui-g form-group">
+                                    <div class="ui-g-2 ui-md-2">
+                                        <br>
+                                        <label for="quarta">Domingo</label>
+                                    </div>
+                                    <div class="ui-g-2 ui-md-2">
+                                        <br>
+                                        <p-checkbox name="ativo" formControlName="domingo" binary="true" [(ngModel)]="selecionado.domingo"></p-checkbox>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-2">
+                                        <label for="sexta_ini">Inicia</label>
+                                        <p-inputMask name="domingo_ini" mask="99:99" [disabled]="!selecionado.domingo" formControlName="domingo_ini" [(ngModel)]="selecionado.domingo_ini"></p-inputMask>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-2">
+                                        <label for="sexta_fim">Encerra</label>
+                                        <p-inputMask name="domingo_fim" mask="99:99" [disabled]="!selecionado.domingo" formControlName="domingo_fim" [(ngModel)]="selecionado.domingo_fim"></p-inputMask>
+                                    </div>
+                                    
+                                </div>
+
+                            </p-accordionTab>
+                            <p-accordionTab header="Galeria">
+
+                                <div class="container-imagens">
+                                    <div class="carregar-img">
+                                        <p-fileUpload #uploadGaleria name="myfile[]" accept="image/*" chooseLabel="Selecionar" uploadLabel="Salvar" cancelLabel="Cancelar"
+                                            customUpload="true" multiple="multiple" (uploadHandler)="myUploader($event)">
+
+                                            <ng-template pTemplate="content">
+                                                <div>Voce pode arrastar as imagens e soltar aqui</div>
+                                            </ng-template>
+
+                                        </p-fileUpload>
+                                    </div>
+                                </div>
+                                
+                                <div class="galeria">
+                                    <div class="item" *ngFor="let imagem of selecionado?.imagens">
+                                        <img src="{{urlImage}}{{imagem}}" width="200">
+                                    </div>
+                                </div>
+
+                            </p-accordionTab>
+                        </p-accordion>
+
+                        <div class="ui-g">
+                            <div class="ui-g-4 ui-md-4">
+                                <p-checkbox name="ativo" label="Ativo" formControlName="ativo" binary="true" [(ngModel)]="selecionado.ativo"></p-checkbox>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ui-g-12 ui-md-4">
+                        <div class="ui-g form-group">
+                            <div class="ui-g-12 ui-md-12 foto-empresa" style="text-align: center">
+                                <input type="file" name="file" id="file" class="inputfile" accept="image/*" (change)="changeListener($event)">
+                                <label *ngIf="!selecionado?.logo" for="file" class="semimg animated fadeIn">
+                                    <div class="fa fa-user"></div>
+                                    <div>LOGO</div>
+                                </label>
+                                <label *ngIf="selecionado?.logo" for="file" class="comimg animated fadeIn">
+                                    <img src="{{urlImage}}{{selecionado?.logo}}" width="100%" alt="FOTO" />
+                                </label>
+                            </div>
+
+                            <div class="ui-g-12 ui-md-12">
+                                <label for="descricao">Sobre</label>
+                                <textarea pInputTextarea name="sobre" formControlName="sobre" rows="10" [(ngModel)]="selecionado.sobre">
+                                </textarea>
+                            </div>
+        
+                            <div class="ui-g-12 ui-md-12">
+                                <p-gmap 
+                                    #gmap
+                                    [options]="options" 
+                                    [overlays]="pointMap"
+                                    (onMapClick)="clickMapaMinhalocalizacao($event,gmap.getMap())"
+                                    [style]="{'width':'100%','height':'320px'}" ></p-gmap>
+                                <br>
+                                <a pButton label="Atualiar posição" class="green-btn" (click)="buscarLocalizacao()"></a>
+                            </div>
+                        </div>
+                    </div>
+              </div>
+          </div> 
+      </div>
+      
+    <p-footer>
+        <button pButton type="submit" label="Salvar" [disabled]="!formulario.valid" class="green-btn"></button>
+        <a pButton (click)="excluir(selecionado)" *ngIf="selecionado?._id" label="Excluir" class="ui-button-danger"></a>
+        <a pButton (click)="cancelar()" label="Voltar" class="black-btn" style="color: #fff !important"></a>
+    </p-footer>
+  </p-panel>
+</form>

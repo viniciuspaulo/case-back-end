@@ -1,0 +1,158 @@
+
+@mixin breakpoint($point) {
+    @if $point == desktop {
+      @media (min-width: 70em) { @content ; }
+   }
+    @else if $point == laptop {
+      @media (min-width: 64em) { @content ; }
+   }
+     @else if $point == tablet {
+      @media (min-width: 50em) { @content ; }
+   }
+    @else if $point == phablet {
+      @media (min-width: 37.5em)  { @content ; }
+   }
+   @else if $point == mobileonly {
+      @media (max-width: 37.5em)  { @content ; }
+ 
+   }
+ }
+
+.login-estabelecimento {
+
+    display: flex;
+    justify-content: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    width: calc(100% - 200px);
+    min-height: calc(100vh - 100px);
+    padding: 50px 100px;
+
+    @include breakpoint(mobileonly) {
+        width: calc(100% - 20px);
+        min-height: calc(100vh - 20px);
+        padding: 10px;
+        background: #fff !important;
+        background-image: none;
+        .caixa-central{
+            .caixa-login{
+                border-radius: 0px !important;
+                padding: 0px !important;
+                .logo-container h1{
+                    width: 100%;
+                    text-align: center;
+                }
+            }
+        }
+    }
+    
+    .caixa-central{
+        display: flex;
+        justify-content: space-between;
+        max-width: 950px;
+        width: 100%;
+        min-height: calc(100vh - 100px);
+
+        -webkit-box-shadow: 0px 0px 64px -15px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 0px 64px -15px rgba(0,0,0,0.75);
+box-shadow: 0px 0px 64px -15px rgba(0,0,0,0.75);
+
+        .caixa-login{
+            max-width: 350px;
+            width: 100%;;
+            background: #fff;
+            border-radius: 10px 0px 0px 10px;
+            padding: 10px;
+            .logo-container{
+               h1{
+                   text-align: center;
+                   width: 100%;
+               }
+            }
+
+            form{
+                .caixa-login-central{
+                    width: 100%;
+                    max-width: 250px;
+                    margin: 0 auto;
+                    padding-top: 50px;
+                    .info-login{
+                        margin-top: 50px;
+                        width: 100%;
+                        h3{
+                            color: #373435;
+                            font-size: 1.5em;
+                            span{
+                                color: #7d4991;
+                            }
+                        }
+                        p{
+                            color : #d9dbde;
+                        }
+                    }
+                    .campo{
+                        padding: 15px 10px;
+                        width: calc(100% - 20px);
+                        margin: 5px 0px;
+                        border: 2px solid rgba(204, 204, 204, 0.68);
+                    }
+                    .ui-g-12{
+                        padding: 0px;
+                    }
+                    .label-t{
+                        color: rgba(55, 52, 53, 0.48);
+                        font-size: 0.9em;
+                        margin: 5px 0px;
+                        font-weight: bolder;
+                    }
+                    .caixa-perfil{
+                        display: flex;
+                        justify-content: space-between;
+                        font-size: 0.7em;
+                        padding: 10px 0px;
+                    }
+                    .esquecisenha{
+                        text-align: right;
+                        cursor: pointer;
+                    }
+                    .button-container{
+                        padding: 10px 0px;
+                        .botao-login{
+                            padding: 10px;
+                            border-radius: 20px;
+                            width: 100%;
+                            color: #fff;
+                            border: none;
+                            background: #7d4991;
+                            font-weight: bolder;
+                        }
+                    }
+                }
+            }
+        }
+        .login-background{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 0px 10px 10px 0px;
+            background-size: auto 100%;
+            background-repeat: no-repeat;
+            width: 100%;
+            h1{
+                color: #fff;
+                span{
+                    font-weight: 100;
+                }
+            }
+
+            @include breakpoint(mobileonly) {
+                display: none;
+            }
+        }
+    }
+
+}
+
+.ui-button-disabled{
+    background-color: #7d499177 !important;
+}

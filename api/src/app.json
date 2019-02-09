@@ -1,0 +1,8 @@
+{
+    "name": "Helton",
+    "watch": true,
+    "ignore_watch" : ["node_modules"],
+    "watch_options": {
+      "followSymlinks": false
+    }
+  }

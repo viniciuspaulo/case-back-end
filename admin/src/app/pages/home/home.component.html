@@ -1,0 +1,23 @@
+<p-growl [(value)]="mensagens"></p-growl>
+<p-blockUI [blocked]="loading">
+    <p-progressSpinner></p-progressSpinner>
+</p-blockUI>
+
+
+<div class="ui-g">
+    <div class="header-listagens">
+        <h1><img src="assets/imgs/icon.png" class="logo"></h1>
+        <div class="search-listagens">
+            <div class="ui-g form-group">
+                <div class="campo-search">
+                    <input  type="text"  pInputText [(ngModel)]="textoPesquisa" placeholder="Aonde você que ir ?" (change)="pesquisar()"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="ui-g-12 listagens" *ngIf="empresas?.length > 0">
+        <app-card-yielp *ngFor="let listing of empresas" [listing]="listing"></app-card-yielp>
+    </div>
+
+</div>

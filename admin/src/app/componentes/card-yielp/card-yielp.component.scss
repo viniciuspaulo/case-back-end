@@ -1,0 +1,23 @@
+.img-listing {
+    height: 150px;
+}
+.ui-card-title {
+    display: flex;
+    align-items: center;
+    font-size: 1em;
+    .logo-yielp{
+        width: 40px;
+    }
+}
+.ui-card-subtitle {
+    font-size: 0.8em;
+    img {
+        width: 20px;
+    }
+}
+.categorias {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 0.8em;
+}

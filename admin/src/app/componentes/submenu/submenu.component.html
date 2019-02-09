@@ -1,0 +1,29 @@
+<ng-template ngFor let-child let-i="index" [ngForOf]="(root ? item : item.items)">
+  <li [ngClass]="{'active-menuitem': isActive(i)}" [class]="child.badgeStyleClass" *ngIf="child.visible === false ? false : true">
+      
+    <!--*ngIf="!child.routerLink && child?.id == auth?.perfil"-->
+      <a [href]="child.url||'#'" (click)="itemClick($event,child,i)" 
+        *ngIf="!child.routerLink"
+         [attr.tabindex]="!visible ? '-1' : null"  [attr.target]="child.target">
+          <i [ngClass]="child.icon"></i>
+          <span>{{child.label}}</span>
+          <span class="menuitem-badge" *ngIf="child.badge">{{child.badge}}</span>
+          <i class="fa fa-fw fa-angle-down" *ngIf="child.items"></i>
+      </a>
+      
+      <!--*ngIf="child.routerLink && child?.id == auth?.perfil" -->
+      <a (click)="itemClick($event,child,i)" 
+      [attr.target]="child.target" 
+      *ngIf="child.routerLink"
+      routerLinkActive="active-menuitem-routerlink">
+
+          <i [ngClass]="child.icon"></i>
+          <span>{{child.label}}</span>
+          <span class="menuitem-badge" *ngIf="child.badge">{{child.badge}}</span>
+          <i class="fa fa-fw fa-angle-down" *ngIf="child.items"></i>
+      </a>
+
+      <ul app-submenu [item]="child" *ngIf="child.items" [@children]="isActive(i) ?
+      'visible' : 'hidden'" [visible]="isActive(i)" [reset]="reset"></ul>
+  </li>
+</ng-template>

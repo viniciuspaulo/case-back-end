@@ -1,0 +1,24 @@
+<div class="topbar clearfix">
+  <div class="topbar-left">
+      <div class="logo">
+          <img src="assets/imgs/icon.png" alt="">
+      </div>
+  </div>
+
+  <div class="topbar-right">
+      <a id="menu-button" (click)="app.onMenuButtonClick($event)">
+          <i class="fa fa-angle-left"></i>
+      </a>
+      <ul class="topbar-items fadeInDown animated" [ngClass]="{'topbar-items-visible': app.topbarMenuActive}">
+          <li #profile class="profile-item" [ngClass]="{'active-top-menu':app.activeTopbarItem === profile}">
+              <a href="#" (click)="app.onTopbarItemClick($event,profile)">
+                  
+                  <img class="profile-image" [src]="'assets/layout/images/avatar.png'">
+                  <span class="topbar-item-name">{{ auth?.nome || 'Usuário'}}</span>
+              </a>
+
+          </li>
+          <li #settings [ngClass]="{'active-top-menu':app.activeTopbarItem === settings}"></li>
+      </ul>
+  </div>
+</div>

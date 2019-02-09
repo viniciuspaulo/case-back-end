@@ -1,0 +1,71 @@
+<p-growl [(value)]="mensagens"></p-growl>
+<p-blockUI [blocked]="loading">
+    <p-progressSpinner></p-progressSpinner>
+</p-blockUI>
+
+<div class="login-estabelecimento" style="background-image: url('assets/imgs/cuisine-2248567_1920.jpg')">
+    <div class="caixa-central">
+        <div class="caixa-login">
+            <form class="ui-g" [formGroup]="formulario" (ngSubmit)="logar()" novalidate *ngIf="page === 0">
+                <div class="ui-g-12 logo-container">
+                    <img src="assets/imgs/icon.png" alt="" width="50">
+                    <h1>Login</h1>
+                </div>
+
+                <div class="caixa-login-central">
+
+                    <div class="label-t label-email">Usuário</div>
+                    <div class="ui-g-12">
+                        <input type="text" autocomplete="off" name="usuario" formControlName="usuario" [(ngModel)]="dados.usuario" class="campo" placeholder="Usuário">
+                    </div>
+
+                    <div class="label-t label-senha">SENHA</div>
+                    <div class="ui-g-12">
+                        <input type="password" autocomplete="off" name="senha" formControlName="senha" [(ngModel)]="dados.senha" class="campo" placeholder="Password">
+                    </div>
+                    
+                    <div class="ui-g-12" class="esquecisenha">
+                        <a (click)="page = 1"> Esqueci senha</a>
+                    </div>
+                    
+                    <div class="ui-g-12 button-container">
+                        <button type="submit" [disabled]="!formulario.valid" [ngClass]="{'ui-button-disabled' : !formulario.valid}" class="ui-button botao-login">
+                            <span class="ui-button-icon-left ui-c"></span>
+                            <span class="ui-button-text ui-c">FAZER LOGIN</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+
+            <form class="ui-g" [formGroup]="formularioEsqueci" (ngSubmit)="esqueciSenha()" novalidate *ngIf="page === 1">
+
+
+                <div class="caixa-login-central">
+
+                    <div class="label-t label-senha">EMAIL</div>
+                    <div class="ui-g-12">
+                        <input type="text" autocomplete="off" name="senha" formControlName="email" [(ngModel)]="emailEsquecisenha" class="campo" placeholder="Digite seu email">
+                    </div>
+
+                    <div class="ui-g-12" class="esquecisenha">
+                        <a (click)="page = 0">Fazer login</a>
+                    </div>
+
+                    <div class="ui-g-12 button-container">
+                        <button type="submit" [disabled]="!formularioEsqueci.valid" class="ui-button botao-login">
+                            <span class="ui-button-icon-left ui-c"></span>
+                            <span class="ui-button-text ui-c">ENVIAR</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="login-background" style="background-image: url('assets/imgs/cuisine-2248567_1920.jpg')">
+            <h1>
+                <img src="assets/imgs/icon.png" alt="" width="150">
+            </h1>
+        </div>
+    </div>
+</div>

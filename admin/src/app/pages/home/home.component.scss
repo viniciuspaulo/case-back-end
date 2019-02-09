@@ -1,0 +1,31 @@
+
+.logo{
+    width: 100px;
+}
+.header-listagens {
+    width: 100%;
+    text-align: center;
+    
+    .campo-search{
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        input {
+            min-width: 300px;
+            width: 50%;
+            padding: 10px;
+            border: 2px solid #d088c1;
+            border-radius: 10px 0px 10px 0px;
+        }
+    }
+}
+.listagens {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+
+    app-card-yielp {
+        margin: 10px;
+    }
+}

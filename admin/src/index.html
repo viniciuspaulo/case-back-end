@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>..:: Helton ::..</title>
+  <base href="/">
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+
+  <!-- Layout CSS -->
+  <link id="theme-css" rel="stylesheet" type="text/css" href="assets/theme/theme-pink.css">
+  <link id="layout-css" rel="stylesheet" type="text/css" href="assets/layout/css/layout-pink.css">
+</head>
+<body>
+   <app-root>
+      <div class="splash-screen">
+          <div class="splash-container">
+            <img src="assets/imgs/icon.png" alt="" width="80">
+          </div>
+      </div>
+    </app-root>
+
+    <script type="text/javascript"> if (global === undefined) { var global = window; } </script>
+</body>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7cui_M1g63yhym0pdVF9wqj84-fN1yJs"></script>
+<script type="text/javascript">
+    $(function() {
+        $('#menu-button').on('click', function(e) {
+            var menu = $('#menu');
+            if(menu.hasClass('lmenu-active')) {
+                menu.addClass('fadeOutUp');
+                
+                setTimeout(function() {
+                    menu.removeClass('fadeOutUp fadeInDown lmenu-active');
+                },500);
+            }
+            else {
+                menu.addClass('lmenu-active fadeInDown');
+            }
+            e.preventDefault();
+        });
+    });
+</script>
+</html>

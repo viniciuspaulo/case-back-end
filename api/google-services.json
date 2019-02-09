@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "836269329339",
+    "firebase_url": "https://mtclubev2.firebaseio.com",
+    "project_id": "mtclubev2",
+    "storage_bucket": "mtclubev2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:836269329339:android:664c6d4fde567247",
+        "android_client_info": {
+          "package_name": "br.com.chooz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "836269329339-r2vuaj6brqkigigc7jrsjng6ns1fbnv1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.chooz",
+            "certificate_hash": "d21d715f83e2ab01446ddde134ccc6a6d2f95f15"
+          }
+        },
+        {
+          "client_id": "836269329339-cc2dtmeepsosdmvhpjm032a5f99u6hh0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFz5P25gelAOCIrA1Je6QE51Pac4HpFu0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "836269329339-cc2dtmeepsosdmvhpjm032a5f99u6hh0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,30 @@
+.foto-empresa{
+    padding: 0px 15px;
+
+    .inputfile + label.comimg{
+        width: 200px;
+        height: 150px;
+    }
+
+    .comimg img {
+       border-radius: 0px;
+    }
+}
+
+.galeria {
+    display: flex;
+    width: 100%;
+    .item {
+        max-width: 80px;
+        margin: 5px;
+        img{
+            width: 100%;
+        }
+    }
+}
+
+.logo-table{
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+}
